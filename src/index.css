@@ -1,26 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --color-brand-primary: #7c3aed; /* Violet 600 */
-  --color-brand-secondary: #c026d3; /* Fuchsia 600 */
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
+  --color-brand-primary: #c2410c;
+  --color-brand-secondary: #fb923c;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.75rem;
 }
 
 @layer base {
   body {
-    @apply font-sans bg-neutral-50 text-neutral-900 antialiased;
+    @apply font-sans bg-[#fffaf6] text-neutral-900 antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: "Manrope", "Inter", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.02em;
   }
 }
 
 .glass-card {
-  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-sm;
+  @apply bg-white/85 backdrop-blur-md border border-white/30 shadow-sm;
 }
 
 .premium-shadow {
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 20px 40px -22px rgba(15, 23, 42, 0.25);
+}
+
+.warm-surface {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 251, 245, 0.9));
+  border: 1px solid rgba(251, 146, 60, 0.22);
+  box-shadow: 0 16px 40px -28px rgba(194, 65, 12, 0.45);
 }
 
 .custom-scrollbar::-webkit-scrollbar {

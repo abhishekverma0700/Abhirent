@@ -27,7 +27,6 @@ import {
   CheckCircle,
   AlertCircle,
   Eye,
-  Edit3,
   MoreVertical,
   Upload,
   Camera,
@@ -223,7 +222,7 @@ const Badge = ({ children, className = "" }: { children: React.ReactNode, classN
   </span>
 );
 
-const COMING_SOON_TEXT = 'We are coming soon to Lucknow, thanks for your patience';
+const COMING_SOON_TEXT = 'We are coming soon to Lucknow! Our website is currently under development, and we are working hard to launch very soon. Thank you for your patience and support.';
 
 const useComingSoonModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -386,187 +385,96 @@ const Header = ({ setView, selectedCity, setSelectedCity, onBrowseAll, cartCount
     onSearch(val);
   };
 
-  const cityLabel = 'Lucknow'; // Single city for now
+  const cityLabel = selectedCity || 'Lucknow';
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-neutral-100 transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
-        <div className="flex justify-between items-center min-h-20 gap-4 py-2">
-          {/* Logo - no fixed height so full logo is visible */}
-          <Link
-            to="/"
-            className="flex items-center shrink-0 cursor-pointer group min-w-0"
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}logo.png`}
-              alt="Abhirent"
-              className="h-10 w-auto max-w-[280px] object-contain object-left group-hover:opacity-90 transition-opacity"
-            />
-          </Link>
+    <header className="sticky top-0 z-50">
+      <div className="bg-orange-50/90 border-b border-orange-100 text-[11px] sm:text-xs text-orange-800">
+        <div className="max-w-7xl mx-auto px-3 sm:px-5 lg:px-8 py-1.5 flex items-center justify-between">
+          <p className="font-semibold tracking-wide">Lucknow launch window is now open · Limited early access</p>
+          <button onClick={() => setView('Support')} className="hidden sm:inline font-bold hover:text-orange-900">Help Center</button>
+        </div>
+      </div>
 
-          {/* Desktop Navigation removed as per request */}
+      <div className="backdrop-blur-xl bg-white/90 border-b border-orange-100/70">
+        <div className="max-w-7xl mx-auto px-3 sm:px-5 lg:px-8 py-3">
+          <div className="flex items-center gap-3 lg:gap-5">
+            <Link to="/" className="shrink-0">
+              <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Abhirent" className="h-10 w-auto object-contain" />
+            </Link>
 
-          {/* Search & Actions */}
-          <div className="hidden lg:flex flex-1 max-w-md items-center gap-2 bg-neutral-100 px-4 py-2.5 rounded-full border border-neutral-200 focus-within:ring-2 focus-within:ring-violet-500/20 focus-within:border-violet-500 transition-all">
-            <Search className="w-5 h-5 text-neutral-400" />
-            <input
-              type="text"
-              placeholder="Search furniture, appliances..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="bg-transparent border-none focus:ring-0 outline-none focus:outline-none text-base w-full placeholder:text-neutral-400"
-            />
-            <div className="h-5 w-[1px] bg-neutral-300 mx-2" />
-            <div className="flex items-center gap-1.5 text-sm font-medium text-neutral-600">
-              <MapPin className="w-4 h-4" />
-              <span>{cityLabel}</span>
+            <nav className="hidden lg:flex items-center gap-2 rounded-2xl border border-orange-100 bg-white px-2 py-1.5">
+              <button onClick={() => setView('Home')} className="px-3 py-2 rounded-xl text-sm font-semibold text-neutral-700 hover:bg-orange-50 hover:text-orange-800 transition-colors">Home</button>
+              <button onClick={onBrowseAll} className="px-3 py-2 rounded-xl text-sm font-semibold text-neutral-700 hover:bg-orange-50 hover:text-orange-800 transition-colors">Explore</button>
+              <button onClick={() => setView('CreateListing')} className="px-3 py-2 rounded-xl text-sm font-semibold text-neutral-700 hover:bg-orange-50 hover:text-orange-800 transition-colors">Sell</button>
+            </nav>
+
+            <div className="hidden md:flex flex-1 items-center gap-2 rounded-2xl border border-orange-100 bg-white px-4 py-2.5 focus-within:ring-2 focus-within:ring-orange-300/40">
+              <Search className="w-4 h-4 text-neutral-400" />
+              <input
+                type="text"
+                placeholder="Search sofas, beds, ACs..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="w-full bg-transparent text-sm outline-none placeholder:text-neutral-400"
+              />
+              <div className="h-4 w-px bg-neutral-200" />
+              <button onClick={() => setSelectedCity('Lucknow')} className="flex items-center gap-1 text-xs font-semibold text-orange-700">
+                <MapPin className="w-3.5 h-3.5" />
+                {cityLabel}
+              </button>
             </div>
-          </div>
 
-          {/* Right Actions */}
-          <div className="flex items-center gap-3 sm:gap-5">
-            <button
-              onClick={() => setView('CreateListing')}
-              className="hidden sm:flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-xl font-bold text-sm hover:bg-violet-700 transition-all shadow-sm"
-            >
-              <Plus className="w-4 h-4" />
-              Sell
-            </button>
-
-            <div className="flex items-center gap-2 sm:gap-4">
-              <button
-                onClick={() => setView('Cart')}
-                className="p-2 text-neutral-500 hover:text-violet-600 transition-colors relative"
-              >
+            <div className="ml-auto flex items-center gap-1 sm:gap-2">
+              <button onClick={() => setView('Cart')} className="relative p-2.5 rounded-xl text-neutral-600 hover:bg-orange-50 hover:text-orange-700 transition-colors">
                 <ShoppingCart className="w-5 h-5" />
-                {cartCount > 0 && (
-                  <span className="absolute top-1 right-1 w-2 h-2 bg-violet-500 rounded-full border-2 border-white"></span>
-                )}
+                {cartCount > 0 && <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-orange-600 text-white text-[10px] rounded-full grid place-items-center">{Math.min(cartCount, 9)}</span>}
               </button>
-
-              <button className="p-2 text-neutral-500 hover:text-violet-600 transition-colors relative">
+              <button className="hidden sm:inline-flex p-2.5 rounded-xl text-neutral-600 hover:bg-orange-50 hover:text-orange-700 transition-colors">
                 <Heart className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-violet-500 rounded-full border-2 border-white"></span>
               </button>
 
-              <div className="relative" ref={profileRef}>
-                {user ? (
-                  <>
-                    <button
-                      className="p-2 text-neutral-500 hover:text-violet-600 transition-colors flex items-center gap-2"
-                      onClick={() => setIsProfileOpen(!isProfileOpen)}
-                    >
-                      <User className="w-5 h-5" />
-                      <span className="text-sm font-medium hidden sm:block">{user.name.split(' ')[0]}</span>
-                    </button>
-
-                    <AnimatePresence>
-                      {isProfileOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-neutral-100 py-2 z-50 flex flex-col"
-                        >
-                          <div className="px-4 py-3 border-b border-neutral-50 mb-1 bg-neutral-50/50">
-                            <p className="text-sm font-bold text-neutral-900">{user.name}</p>
-                            <p className="text-xs font-medium text-neutral-500 mt-0.5">{user.email}</p>
-                          </div>
-                          <button
-                            onClick={() => { setView('Profile'); setIsProfileOpen(false); }}
-                            className="w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-50 transition-colors text-neutral-700 font-medium"
-                          >
-                            Profile
-                          </button>
-                          <button
-                            onClick={() => { setView('MyListings'); setIsProfileOpen(false); }}
-                            className="w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-50 transition-colors text-neutral-700 font-medium"
-                          >
-                            My Listings
-                          </button>
-                          <button
-                            onClick={() => { setView('Orders'); setIsProfileOpen(false); }}
-                            className="w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-50 transition-colors text-neutral-700 font-medium"
-                          >
-                            My Orders
-                          </button>
-                          <button
-                            onClick={() => { setView('SellerKYC'); setIsProfileOpen(false); }}
-                            className="w-full text-left px-4 py-2.5 text-sm hover:bg-neutral-50 transition-colors text-neutral-700 font-medium border-t border-neutral-50 mt-1 pt-3"
-                          >
-                            Seller KYC
-                          </button>
-                          <button
-                            onClick={() => { onLogout && onLogout(); setIsProfileOpen(false); }}
-                            className="w-full text-left px-4 py-2.5 text-sm hover:bg-rose-50 text-rose-600 transition-colors font-medium border-t border-neutral-50 mt-1"
-                          >
-                            Log Out
-                          </button>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </>
-                ) : (
-                  <button
-                    onClick={() => setView('Login')}
-                    className="px-4 py-2 bg-violet-600 text-white rounded-xl font-bold text-sm hover:bg-violet-700 transition-all shadow-sm"
-                  >
-                    Login
+              {user ? (
+                <div className="relative" ref={profileRef}>
+                  <button className="inline-flex items-center gap-2 rounded-xl border border-orange-100 bg-white px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-orange-50" onClick={() => setIsProfileOpen(!isProfileOpen)}>
+                    <User className="w-4 h-4" />
+                    <span className="hidden sm:inline">{user.name.split(' ')[0]}</span>
                   </button>
-                )}
-              </div>
-              <button
-                className="md:hidden p-2 text-neutral-500"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                  <AnimatePresence>
+                    {isProfileOpen && (
+                      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} className="absolute top-full right-0 mt-2 w-56 rounded-2xl border border-orange-100 bg-white shadow-xl p-2 z-50">
+                        <button onClick={() => { setView('Profile'); setIsProfileOpen(false); }} className="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-orange-50">Profile</button>
+                        <button onClick={() => { setView('MyListings'); setIsProfileOpen(false); }} className="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-orange-50">My Listings</button>
+                        <button onClick={() => { setView('Orders'); setIsProfileOpen(false); }} className="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-orange-50">My Orders</button>
+                        <button onClick={() => { setView('SellerKYC'); setIsProfileOpen(false); }} className="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-orange-50">Seller KYC</button>
+                        <button onClick={() => { onLogout && onLogout(); setIsProfileOpen(false); }} className="w-full text-left px-3 py-2 rounded-lg text-sm text-rose-600 hover:bg-rose-50">Log Out</button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <button onClick={() => setView('Login')} className="hidden sm:inline-flex items-center rounded-xl bg-orange-600 px-4 py-2 text-sm font-bold text-white hover:bg-orange-700 transition-colors">Sign In</button>
+              )}
+
+              <button className="md:hidden p-2.5 rounded-xl border border-orange-100 text-neutral-600" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-neutral-100 overflow-hidden"
-          >
-            <div className="px-4 py-6 space-y-4">
-              <div className="flex items-center gap-2 bg-neutral-100 px-3 py-2 rounded-xl border border-neutral-200">
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="md:hidden border-b border-orange-100 bg-white overflow-hidden">
+            <div className="px-4 py-5 space-y-3">
+              <div className="flex items-center gap-2 rounded-xl border border-orange-100 px-3 py-2.5">
                 <Search className="w-4 h-4 text-neutral-400" />
-                <input type="text" placeholder="Search..." className="bg-transparent border-none focus:ring-0 text-sm w-full" />
+                <input value={searchTerm} onChange={handleSearchChange} placeholder="Search in Abhirent" className="w-full bg-transparent text-sm outline-none" />
               </div>
-              <nav className="flex flex-col gap-4 font-medium text-neutral-600">
-                <button
-                  onClick={() => { setView('CreateListing'); setIsMenuOpen(false); }}
-                  className="text-left py-2 border-b border-neutral-50 text-violet-600 font-bold flex items-center gap-2"
-                >
-                  <Plus className="w-4 h-4" />
-                  Sell an Item
-                </button>
-                <button
-                  onClick={() => { setView('MyListings'); setIsMenuOpen(false); }}
-                  className="text-left py-2 border-b border-neutral-50 hover:text-violet-600"
-                >
-                  My Listings
-                </button>
-                <button
-                  onClick={() => { setView('Orders'); setIsMenuOpen(false); }}
-                  className="text-left py-2 border-b border-neutral-50 hover:text-violet-600"
-                >
-                  My Orders
-                </button>
-                <button
-                  onClick={() => { setView('SellerKYC'); setIsMenuOpen(false); }}
-                  className="text-left py-2 border-b border-neutral-50 hover:text-violet-600"
-                >
-                  Seller KYC
-                </button>
-              </nav>
+              <button onClick={() => { onBrowseAll(); setIsMenuOpen(false); }} className="w-full text-left px-3 py-2.5 rounded-xl bg-orange-50 text-orange-800 font-semibold">Explore Listings</button>
+              <button onClick={() => { setView('CreateListing'); setIsMenuOpen(false); }} className="w-full text-left px-3 py-2.5 rounded-xl bg-orange-600 text-white font-semibold">Sell on Abhirent</button>
+              <button onClick={() => { setView('Support'); setIsMenuOpen(false); }} className="w-full text-left px-3 py-2.5 rounded-xl border border-orange-100 text-neutral-700 font-semibold">Support</button>
             </div>
           </motion.div>
         )}
@@ -617,147 +525,68 @@ const Hero = ({ onBrowseCategory, onSell }: { onBrowseCategory: (c: string) => v
 const Banner = ({ onBrowseCategory }: { onBrowseCategory: (c: string) => void }) => {
   const baseUrl = import.meta.env.BASE_URL;
   return (
-    <section className="relative overflow-hidden">
-      {/* Background: same light gradient on all screens (initial style) */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-neutral-50 via-white to-violet-50/40" />
-        <div className="absolute -top-[30%] -right-[15%] w-[900px] h-[900px] bg-violet-100/50 rounded-full blur-[140px] opacity-70" />
-        <div className="absolute top-[20%] -left-[15%] w-[700px] h-[700px] bg-teal-50/60 rounded-full blur-[100px] opacity-80" />
-        <div className="absolute bottom-0 right-[20%] w-[500px] h-[500px] bg-amber-50/40 rounded-full blur-[80px] opacity-60" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,neutral-200/0.03_1px,transparent_1px),linear-gradient(to_bottom,neutral-200/0.03_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_right,#ffedd5_0%,#fffaf6_35%,#fff_100%)]">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-20 -left-24 h-72 w-72 rounded-full bg-orange-200/40 blur-3xl" />
+        <div className="absolute top-32 right-0 h-80 w-80 rounded-full bg-amber-200/45 blur-3xl" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 lg:pt-24 pb-12 sm:pb-20 lg:pb-28">
-        <div className="grid lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
-          {/* Left: Copy */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center lg:text-left order-2 lg:order-1"
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm border border-neutral-200/80 text-neutral-700 text-sm font-semibold mb-6 sm:mb-8 shadow-sm"
-            >
-              <span className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
-              India's first P2P pre-owned AI-powered marketplace
-            </motion.div>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-14 pb-12 md:pb-16">
+        <div className="grid lg:grid-cols-[1.15fr_0.85fr] items-center gap-10">
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <div className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white px-4 py-2 text-xs font-bold uppercase tracking-wide text-orange-700 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5" />
+              Abhirent · Lucknow First Access
+            </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-[4rem] font-extrabold tracking-tight text-neutral-900 mb-4 sm:mb-6 leading-[1.08]">
-              <span className="block">Quality living.</span>
-              <span className="block mt-1 text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-teal-600 to-violet-700">
-                Unbeatable value.
-              </span>
+            <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.04] text-neutral-900 max-w-2xl">
+              Rent-ready homes,
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-700 to-amber-500">without premium price stress.</span>
             </h1>
 
-            <p className="text-base sm:text-lg lg:text-xl text-neutral-600 mb-6 sm:mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Verified pre-owned furniture and appliances—delivered safely to your door with our guarantee. Upgrade your space without the premium price.
+            <p className="mt-5 text-base sm:text-lg text-neutral-600 max-w-xl leading-relaxed">
+              Discover verified pre-owned furniture and appliances with secure payments, managed logistics, and local support tailored for Indian families.
             </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.25 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4"
-            >
-              <button
-                onClick={() => onBrowseCategory('furniture')}
-                className="w-full sm:w-auto px-8 py-4 bg-violet-600 text-white rounded-2xl font-bold hover:bg-violet-700 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.16)] flex items-center justify-center gap-2 group"
-              >
-                Browse Furniture
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <button onClick={() => onBrowseCategory('furniture')} className="px-7 py-3.5 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white font-bold shadow-lg shadow-orange-200 transition-all flex items-center justify-center gap-2">
+                Explore Furniture
+                <ArrowRight className="w-4 h-4" />
               </button>
-              <button
-                onClick={() => onBrowseCategory('appliances')}
-                className="w-full sm:w-auto px-8 py-4 bg-white text-neutral-800 border-2 border-neutral-200 rounded-2xl font-bold hover:border-neutral-300 hover:bg-neutral-50 transition-all duration-300 shadow-sm flex items-center justify-center gap-2"
-              >
+              <button onClick={() => onBrowseCategory('appliances')} className="px-7 py-3.5 rounded-2xl border border-orange-200 bg-white hover:bg-orange-50 text-orange-800 font-bold transition-colors">
                 Browse Appliances
               </button>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-6 sm:mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-8 text-sm"
-            >
-              <div className="flex items-center gap-3 text-neutral-600">
-                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-violet-500/10 text-violet-600">
-                  <ShieldCheck className="w-5 h-5" />
+            <div className="mt-8 grid sm:grid-cols-3 gap-3 max-w-2xl">
+              {[
+                { icon: ShieldCheck, title: 'Verified inventory', subtitle: 'Quality checked' },
+                { icon: Truck, title: 'Managed delivery', subtitle: 'Doorstep setup' },
+                { icon: IndianRupee, title: 'Transparent pricing', subtitle: 'No hidden costs' },
+              ].map((item) => (
+                <div key={item.title} className="warm-surface rounded-2xl p-3.5">
+                  <item.icon className="w-4 h-4 text-orange-700" />
+                  <p className="mt-2 text-sm font-bold text-neutral-900">{item.title}</p>
+                  <p className="text-xs text-neutral-500">{item.subtitle}</p>
                 </div>
-                <span className="font-medium">Verified quality</span>
-              </div>
-              <div className="flex items-center gap-3 text-neutral-600">
-                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-teal-500/10 text-teal-600">
-                  <Truck className="w-5 h-5" />
-                </div>
-                <span className="font-medium">Safe delivery</span>
-              </div>
-              <div className="flex items-center gap-3 text-neutral-600">
-                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600">
-                  <IndianRupee className="w-5 h-5" />
-                </div>
-                <span className="font-medium">Best prices</span>
-              </div>
-            </motion.div>
+              ))}
+            </div>
           </motion.div>
 
-          {/* Desktop only: Hero visual (floating cards) — no hero images on mobile */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="relative lg:min-h-[560px] hidden lg:block order-2"
-          >
-            <div className="relative w-full h-full min-h-[480px]">
-              {/* Main card */}
-              <div className="absolute top-0 right-0 w-[88%] aspect-[4/3] max-h-[420px] rounded-[2rem] overflow-hidden shadow-[0_32px_64px_-12px_rgba(0,0,0,0.15),0_0_0_1px_rgba(0,0,0,0.04)] border border-white/80 z-10 rotate-[2deg] transition-transform duration-500 hover:rotate-0">
-                <img
-                  src={`${baseUrl}king_bed_new.png`}
-                  alt="Premium furniture"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                  <span className="px-3 py-1.5 rounded-lg bg-white/95 backdrop-blur text-neutral-800 text-xs font-semibold shadow-sm">
-                    Furniture
-                  </span>
-                  <span className="text-white/95 text-sm font-medium drop-shadow">Great condition</span>
+          <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.55 }} className="relative">
+            <div className="rounded-[28px] border border-orange-100 bg-white p-3 shadow-[0_24px_70px_-36px_rgba(194,65,12,0.55)]">
+              <img src={`${baseUrl}king_bed_new.png`} alt="Abhirent premium listing" className="h-[300px] md:h-[360px] w-full rounded-2xl object-cover" />
+              <div className="mt-3 rounded-xl bg-orange-50 border border-orange-100 p-3 flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-orange-700">Featured in Lucknow</p>
+                  <p className="text-sm font-bold text-neutral-900">2BHK Essential Move-in Set</p>
                 </div>
+                <span className="text-sm font-extrabold text-orange-700">₹29,999/mo</span>
               </div>
-
-              {/* Floating secondary card */}
-              <div className="absolute bottom-8 left-0 w-[52%] aspect-[4/3] max-h-[240px] rounded-[1.5rem] overflow-hidden shadow-[0_24px_48px_-12px_rgba(0,0,0,0.18),0_0_0_1px_rgba(0,0,0,0.06)] border border-white z-20 -rotate-[6deg] transition-transform duration-500 hover:rotate-[-4deg]">
-                <img
-                  src={`${baseUrl}ai_washer.png`}
-                  alt="Appliances"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
-                <div className="absolute bottom-3 left-3">
-                  <span className="px-2.5 py-1 rounded-md bg-white/95 backdrop-blur text-neutral-700 text-xs font-semibold shadow-sm">
-                    Appliances
-                  </span>
-                </div>
-              </div>
-
-              {/* Accent badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="absolute top-1/4 right-[8%] z-30 px-4 py-2.5 rounded-2xl bg-violet-600 text-white text-sm font-bold shadow-lg shadow-violet-500/30 flex items-center gap-2"
-              >
-                <Sparkles className="w-4 h-4" />
-                Up to 60% off
-              </motion.div>
-
-              {/* Decorative rings */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[380px] rounded-full border border-neutral-100/80 z-0" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full border border-neutral-100/50 z-0" />
+            </div>
+            <div className="absolute -bottom-4 -left-4 rounded-2xl border border-orange-200 bg-white px-4 py-3 shadow-lg hidden sm:block">
+              <p className="text-[11px] uppercase tracking-wide text-neutral-500">Trust Score</p>
+              <p className="text-xl font-extrabold text-orange-700">4.8/5</p>
             </div>
           </motion.div>
         </div>
@@ -780,43 +609,36 @@ const Categories = ({ onBrowseCategory }: { onBrowseCategory: (c: string, m?: st
   ];
 
   return (
-    <section className="py-8 bg-white">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
-        <div className="flex justify-between items-end mb-12">
+    <section className="py-10 md:py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-end justify-between mb-6 md:mb-8">
           <div>
-            <h2 className="text-3xl font-bold text-neutral-900 mb-2">Shop by Category</h2>
-            <p className="text-neutral-500">Find exactly what you need for your home.</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-700">Collections</p>
+            <h2 className="mt-2 text-3xl md:text-4xl font-extrabold text-neutral-900">Curated for urban Indian homes</h2>
+            <p className="mt-2 text-neutral-600">Pick a room or appliance line and browse instantly.</p>
           </div>
-          <button
-            onClick={() => onBrowseCategory('furniture')}
-            className="hidden sm:flex items-center gap-2 text-sm font-semibold text-violet-600 hover:underline"
-          >
-            View All Categories <ArrowRight className="w-4 h-4" />
+          <button onClick={() => onBrowseCategory('furniture')} className="hidden md:inline-flex items-center gap-2 text-sm font-bold text-orange-700 hover:text-orange-800">
+            See all collections <ArrowRight className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="grid grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-6 pb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {categories.map((cat) => (
-            <motion.div
+            <motion.button
               key={cat.name}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ y: -4 }}
               onClick={() => onBrowseCategory(cat.category, cat.menuId, cat.subCategory)}
-              className="group flex flex-col items-center gap-3 cursor-pointer"
+              className="text-left rounded-3xl border border-orange-100 bg-white overflow-hidden shadow-sm hover:shadow-lg hover:border-orange-200 transition-all"
             >
-              <div className="w-full max-w-[75px] sm:max-w-[100px] lg:max-w-[110px] aspect-square rounded-full p-1 border-2 border-[#D4AF37] transition-all duration-300 shadow-sm bg-white hover:shadow-md hover:border-[#b5952f]">
-                <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-neutral-50 relative">
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
+              <div className="aspect-[4/3] overflow-hidden">
+                <img src={cat.image} alt={cat.name} className="h-full w-full object-cover hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
               </div>
-              <span className="text-neutral-900 font-bold text-[10px] sm:text-sm text-center break-words w-full leading-tight">
-                {cat.name}
-              </span>
-            </motion.div>
+              <div className="p-4">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-orange-700">{cat.category}</p>
+                <h3 className="mt-1 font-extrabold text-neutral-900">{cat.name}</h3>
+                <p className="mt-1 text-xs text-neutral-500">Ready to deliver in Lucknow</p>
+              </div>
+            </motion.button>
           ))}
         </div>
       </div>
@@ -829,34 +651,34 @@ const TrustSection = () => {
     {
       title: 'Abhirent Protected Payments',
       desc: 'Your money is held safely by Abhirent and only released to the seller after you confirm delivery.',
-      icon: <ShieldCheck className="w-8 h-8 text-violet-600" />,
-      color: 'bg-violet-50'
+      icon: <ShieldCheck className="w-8 h-8 text-orange-700" />,
+      color: 'bg-orange-50'
     },
     {
       title: 'Verified Listings',
       desc: 'Every item goes through a multi-point verification process to ensure quality and authenticity.',
-      icon: <CheckCircle2 className="w-8 h-8 text-fuchsia-600" />,
-      color: 'bg-fuchsia-50'
+      icon: <CheckCircle2 className="w-8 h-8 text-amber-600" />,
+      color: 'bg-amber-50'
     },
     {
       title: 'Managed Logistics',
       desc: 'We handle the pickup, inspection, and delivery. No more awkward meetups with strangers.',
-      icon: <Truck className="w-8 h-8 text-fuchsia-600" />,
-      color: 'bg-fuchsia-50'
+      icon: <Truck className="w-8 h-8 text-orange-700" />,
+      color: 'bg-orange-50'
     }
   ];
 
   return (
-    <section className="py-12 bg-neutral-50">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+    <section className="py-12 bg-[#fffaf4]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-4">Why Abhirent is Safe</h2>
-          <p className="text-neutral-500 max-w-xl mx-auto">We've built trust into every step of the P2P marketplace experience.</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-neutral-900 mb-3">Built for trust-first renting</h2>
+          <p className="text-neutral-500 max-w-xl mx-auto">Every deal follows verified listings, managed movement, and controlled payments.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {features.map((f, i) => (
-            <div key={i} className="bg-white p-8 rounded-3xl border border-neutral-100 premium-shadow hover:border-violet-100 transition-colors">
+            <div key={i} className="bg-white p-8 rounded-3xl border border-orange-100 premium-shadow hover:border-orange-200 transition-colors">
               <div className={`${f.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6`}>
                 {f.icon}
               </div>
@@ -891,9 +713,9 @@ const HowItWorks = () => {
 
   return (
     <section className="py-12 bg-white">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-neutral-900 mb-4">How it Works</h2>
+          <h2 className="text-3xl font-extrabold text-neutral-900 mb-4">How Abhirent works</h2>
           <p className="text-neutral-500">Simple, secure, and managed from start to finish.</p>
         </div>
 
@@ -904,9 +726,9 @@ const HowItWorks = () => {
           <div className="grid md:grid-cols-3 gap-12">
             {steps.map((step, i) => (
               <div key={i} className="flex flex-col items-center text-center bg-white">
-                <div className="w-16 h-16 bg-violet-600 text-white rounded-full flex items-center justify-center mb-6 shadow-lg shadow-violet-200 border-4 border-white relative z-10">
+                <div className="w-16 h-16 bg-orange-600 text-white rounded-full flex items-center justify-center mb-6 shadow-lg shadow-orange-200 border-4 border-white relative z-10">
                   {step.icon}
-                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-violet-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">
+                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-orange-700 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">
                     0{i + 1}
                   </div>
                 </div>
@@ -986,28 +808,29 @@ const RecentlyViewedListings = ({ onListingClick, onViewHistory }: { onListingCl
   ];
 
   return (
-    <section className="py-10 bg-white border-t border-neutral-100">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
-        <div className="flex justify-between items-end mb-8">
+    <section className="py-10 md:py-12 bg-white border-y border-orange-100/70">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-end mb-6">
           <div>
-            <h2 className="text-3xl font-bold text-neutral-900 mb-2">Recently Viewed Products</h2>
-            <p className="text-neutral-500">Pick up right where you left off.</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-700">Continue Browsing</p>
+            <h2 className="mt-2 text-3xl font-extrabold text-neutral-900">Recently viewed</h2>
+            <p className="text-neutral-500">Pick up from where your shortlist paused.</p>
           </div>
           <button
             onClick={onViewHistory}
-            className="hidden sm:flex items-center gap-2 text-sm font-semibold text-violet-600 hover:underline"
+            className="hidden sm:flex items-center gap-2 text-sm font-bold text-orange-700 hover:text-orange-800"
           >
             View History <ArrowRight className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="flex overflow-x-auto gap-6 sm:gap-6 pb-8 snap-x no-scrollbar md:grid md:grid-cols-4 md:overflow-visible">
+        <div className="flex overflow-x-auto gap-4 pb-4 snap-x no-scrollbar md:grid md:grid-cols-4 md:overflow-visible">
           {listings.map((item) => (
             <motion.div
               key={item.id}
-              whileHover={{ y: -5 }}
+              whileHover={{ y: -6 }}
               onClick={() => onListingClick(item)}
-              className="bg-white rounded-3xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-xl transition-all group shrink-0 w-[280px] sm:w-[300px] md:w-full snap-center cursor-pointer"
+              className="bg-white rounded-3xl overflow-hidden border border-orange-100 shadow-sm hover:shadow-xl hover:border-orange-200 transition-all group shrink-0 w-[280px] sm:w-[300px] md:w-full snap-center cursor-pointer"
             >
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img
@@ -1017,12 +840,12 @@ const RecentlyViewedListings = ({ onListingClick, onViewHistory }: { onListingCl
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute top-3 left-3 flex flex-col gap-2">
-                  <Badge className="bg-white/90 backdrop-blur text-violet-600 border border-violet-100">
+                  <Badge className="bg-white/95 backdrop-blur text-orange-700 border border-orange-100">
                     <ShieldCheck className="w-3 h-3 mr-1" /> Verified
                   </Badge>
                 </div>
                 <div className="absolute top-3 right-3">
-                  <button className="w-8 h-8 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-neutral-400 hover:text-violet-600 transition-colors shadow-sm">
+                  <button className="w-8 h-8 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-neutral-400 hover:text-orange-700 transition-colors shadow-sm">
                     <Heart className="w-4 h-4" />
                   </button>
                 </div>
@@ -1030,7 +853,7 @@ const RecentlyViewedListings = ({ onListingClick, onViewHistory }: { onListingCl
 
               <div className="p-5">
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-bold text-neutral-900 leading-tight group-hover:text-violet-600 transition-colors line-clamp-2">
+                  <h3 className="font-bold text-neutral-900 leading-tight group-hover:text-orange-700 transition-colors line-clamp-2">
                     {item.title}
                   </h3>
                 </div>
@@ -1040,7 +863,7 @@ const RecentlyViewedListings = ({ onListingClick, onViewHistory }: { onListingCl
                     <span className="text-xl font-extrabold text-neutral-900">₹{item.price.toLocaleString()}</span>
                     <span className="text-sm font-medium text-neutral-400 line-through">₹{item.originalPrice.toLocaleString()}</span>
                   </div>
-                  <span className="text-xs font-bold text-violet-600">Save {Math.round((1 - item.price / item.originalPrice) * 100)}%</span>
+                  <span className="text-xs font-bold text-orange-700">Save {Math.round((1 - item.price / item.originalPrice) * 100)}%</span>
                 </div>
 
                 <div className="flex items-center justify-between pt-4 border-t border-neutral-100">
@@ -1049,7 +872,7 @@ const RecentlyViewedListings = ({ onListingClick, onViewHistory }: { onListingCl
                     {(item.city && item.city.toLowerCase() !== 'lucknow') ? 'Lucknow' : (item.city || 'Lucknow')}
                   </div>
                   <div className="flex items-center gap-1.5 text-xs font-medium text-neutral-500">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-violet-500" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-orange-600" />
                     {CONDITION_LABELS[item.condition]}
                   </div>
                 </div>
@@ -1247,28 +1070,29 @@ const FeaturedListings = ({ onListingClick, onViewAll }: { onListingClick: (l: L
   ];
 
   return (
-    <section className="py-12 bg-neutral-50">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
-        <div className="flex justify-between items-end mb-8">
+    <section className="py-12 md:py-14 bg-[#fff7ef]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-end mb-7">
           <div>
-            <h2 className="text-3xl font-bold text-neutral-900 mb-2">Browse All Listings</h2>
-            <p className="text-neutral-500">Hand-picked items with guaranteed quality.</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-700">Featured</p>
+            <h2 className="mt-2 text-3xl md:text-4xl font-extrabold text-neutral-900">Trending picks this week</h2>
+            <p className="mt-1 text-neutral-500">Hand-picked catalog with trusted quality checks.</p>
           </div>
           <button
             onClick={onViewAll}
-            className="flex items-center gap-2 text-sm font-semibold text-violet-600 hover:underline"
+            className="flex items-center gap-2 text-sm font-bold text-orange-700 hover:text-orange-800"
           >
             View All <ArrowRight className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
           {listings.map((item) => (
             <motion.div
               key={item.id}
               whileHover={{ y: -8 }}
               onClick={() => onListingClick(item)}
-              className="bg-white rounded-3xl overflow-hidden border border-neutral-100 premium-shadow group cursor-pointer"
+              className="bg-white rounded-3xl overflow-hidden border border-orange-100 premium-shadow group cursor-pointer hover:border-orange-200"
             >
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img
@@ -1278,7 +1102,7 @@ const FeaturedListings = ({ onListingClick, onViewAll }: { onListingClick: (l: L
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute top-3 left-3 flex flex-col gap-2">
-                  <Badge className="bg-white/90 backdrop-blur text-violet-600 border border-violet-100">
+                  <Badge className="bg-white/95 backdrop-blur text-orange-700 border border-orange-100">
                     <ShieldCheck className="w-3 h-3 mr-1" /> Verified
                   </Badge>
                   {item.aiDealTag === 'Great Deal' && (
@@ -1292,7 +1116,7 @@ const FeaturedListings = ({ onListingClick, onViewAll }: { onListingClick: (l: L
                     </Badge>
                   )}
                   {item.aiDealTag === 'Good Deal' && (
-                    <Badge className="bg-violet-100 text-violet-700 border border-violet-200">
+                    <Badge className="bg-orange-100 text-orange-700 border border-orange-200">
                       <ThumbsUp className="w-3 h-3 mr-1" /> Good Value
                     </Badge>
                   )}
@@ -1305,7 +1129,7 @@ const FeaturedListings = ({ onListingClick, onViewAll }: { onListingClick: (l: L
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xs font-medium text-neutral-400 uppercase tracking-wider">{CONDITION_LABELS[item.condition]}</span>
                 </div>
-                <h3 className="font-bold text-neutral-900 mb-3 line-clamp-1 group-hover:text-violet-600 transition-colors">{item.title}</h3>
+                <h3 className="font-bold text-neutral-900 mb-3 line-clamp-1 group-hover:text-orange-700 transition-colors">{item.title}</h3>
                 <div className="flex items-center justify-between">
                   <div>
                     <span className="text-xl font-bold text-neutral-900">₹{item.price.toLocaleString()}</span>
@@ -1315,6 +1139,7 @@ const FeaturedListings = ({ onListingClick, onViewAll }: { onListingClick: (l: L
                     <Star className="w-3 h-3 fill-current mr-1" /> 4.8
                   </div>
                 </div>
+                <button className="mt-4 w-full rounded-xl bg-orange-50 border border-orange-100 py-2.5 text-sm font-bold text-orange-700 hover:bg-orange-100 transition-colors">View details</button>
               </div>
             </motion.div>
           ))}
@@ -1326,74 +1151,60 @@ const FeaturedListings = ({ onListingClick, onViewAll }: { onListingClick: (l: L
 
 const Footer = ({ setView, onSupportClick }: { setView: (v: View) => void, onSupportClick: (section: string) => void }) => {
   return (
-    <footer className="bg-white border-t border-neutral-100 pt-12 pb-6">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 mb-10">
-          <div className="col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <img
-                src={`${import.meta.env.BASE_URL}logo.png`}
-                alt="Abhirent"
-                className="max-h-10 w-auto max-w-[180px] object-contain object-left"
-              />
-            </div>
-            <p className="text-neutral-500 text-sm max-w-xs leading-relaxed mb-6">
-              The managed P2P marketplace for pre-owned furniture and appliances. Trust, verification, and managed delivery in one platform.
+    <footer className="mt-10 bg-[#1f1309] text-orange-50 pt-14 pb-7">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
+          <div>
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Abhirent" className="h-10 w-auto object-contain brightness-110" />
+            <p className="mt-5 text-sm text-orange-100/80 leading-relaxed max-w-sm">
+              Abhirent is building India’s friendliest managed rental marketplace for quality pre-owned furniture and appliances.
             </p>
-            <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-violet-50 transition-colors cursor-pointer text-neutral-400 hover:text-violet-600 bg-neutral-100">
-                <Facebook className="w-4 h-4" />
-              </div>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-violet-50 transition-colors cursor-pointer text-neutral-400 hover:text-violet-600 bg-neutral-100">
-                <Twitter className="w-4 h-4" />
-              </div>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-violet-50 transition-colors cursor-pointer text-neutral-400 hover:text-violet-600 bg-neutral-100">
-                <Instagram className="w-4 h-4" />
-              </div>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-violet-50 transition-colors cursor-pointer text-neutral-400 hover:text-violet-600 bg-neutral-100">
-                <Linkedin className="w-4 h-4" />
-              </div>
+            <div className="mt-5 inline-flex items-center gap-2 rounded-xl border border-orange-800 bg-orange-900/30 px-3 py-2 text-xs font-semibold">
+              <MapPin className="w-3.5 h-3.5" />
+              Lucknow launch in progress
+            </div>
+            <div className="mt-5 flex gap-2">
+              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
+                <button key={i} className="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 transition-colors grid place-items-center">
+                  <Icon className="w-4 h-4" />
+                </button>
+              ))}
             </div>
           </div>
 
           <div>
-            <h4 className="font-bold text-neutral-900 mb-6">Platform</h4>
-            <ul className="space-y-4 text-sm text-neutral-500">
-              <li><button onClick={() => setView('Home')} className="hover:text-violet-600">How it Works</button></li>
-              <li><button onClick={() => setView('Browse')} className="hover:text-violet-600">Browse Items</button></li>
-              <li><button onClick={() => setView('CreateListing')} className="hover:text-violet-600">Sell an Item</button></li>
-              <li><button className="hover:text-violet-600 cursor-not-allowed">Pricing</button></li>
+            <h4 className="font-extrabold text-sm uppercase tracking-wider text-orange-200 mb-4">Marketplace</h4>
+            <ul className="space-y-3 text-sm text-orange-100/80">
+              <li><button onClick={() => setView('Home')} className="hover:text-white">How it works</button></li>
+              <li><button onClick={() => setView('Browse')} className="hover:text-white">Browse listings</button></li>
+              <li><button onClick={() => setView('CreateListing')} className="hover:text-white">List an item</button></li>
+              <li><button onClick={() => setView('Orders')} className="hover:text-white">Order tracking</button></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold text-neutral-900 mb-6">Safety</h4>
-            <ul className="space-y-4 text-sm text-neutral-500">
-              <li><a href="#" className="hover:text-violet-600">Abhirent Protection</a></li>
-              <li><a href="#" className="hover:text-violet-600">Verification Process</a></li>
-              <li><a href="#" className="hover:text-violet-600">Logistics Policy</a></li>
-              <li><a href="#" className="hover:text-violet-600">Buyer Protection</a></li>
+            <h4 className="font-extrabold text-sm uppercase tracking-wider text-orange-200 mb-4">Trust</h4>
+            <ul className="space-y-3 text-sm text-orange-100/80">
+              <li><button onClick={() => onSupportClick('FAQ')} className="hover:text-white">Abhirent Protection</button></li>
+              <li><button onClick={() => onSupportClick('Terms')} className="hover:text-white">Managed logistics</button></li>
+              <li><button onClick={() => onSupportClick('Privacy')} className="hover:text-white">Escrow-safe payments</button></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold text-neutral-900 mb-6">Support</h4>
-            <ul className="space-y-4 text-sm text-neutral-500">
-              <li><button onClick={() => onSupportClick('FAQ')} className="hover:text-violet-600">FAQ</button></li>
-              <li><button onClick={() => onSupportClick('Contact')} className="hover:text-violet-600">Contact Us</button></li>
-              <li><button onClick={() => onSupportClick('Privacy')} className="hover:text-violet-600">Privacy Policy</button></li>
-              <li><button onClick={() => onSupportClick('Terms')} className="hover:text-violet-600">Terms of Service</button></li>
+            <h4 className="font-extrabold text-sm uppercase tracking-wider text-orange-200 mb-4">Support</h4>
+            <ul className="space-y-3 text-sm text-orange-100/80">
+              <li><button onClick={() => onSupportClick('FAQ')} className="hover:text-white">FAQ</button></li>
+              <li><button onClick={() => onSupportClick('Contact')} className="hover:text-white">Contact us</button></li>
+              <li><button onClick={() => onSupportClick('Privacy')} className="hover:text-white">Privacy policy</button></li>
+              <li><button onClick={() => onSupportClick('Terms')} className="hover:text-white">Terms of service</button></li>
             </ul>
           </div>
         </div>
 
-        <div className="pt-10 border-t border-neutral-100 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-neutral-400">© 2026 Abhirent 2.0. All rights reserved.</p>
-          <div className="flex items-center gap-2">
-            <Badge className="bg-neutral-100 text-neutral-500 normal-case font-medium">
-              Prototype – All flows simulated
-            </Badge>
-          </div>
+        <div className="mt-10 pt-6 border-t border-orange-900/60 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-orange-100/70">© 2026 Abhirent. Built for modern Indian homes.</p>
+          <Badge className="bg-white/10 text-orange-100 normal-case font-semibold">Prototype – local mode active</Badge>
         </div>
       </div>
     </footer>
@@ -3815,15 +3626,8 @@ const MyListings = ({ onHome, setView, onListingClick }: { onHome: () => void, s
                 <div className="flex flex-col gap-3 w-full sm:w-auto items-end">
                   <div className="flex gap-3 w-full sm:w-auto">
                     <button
-                      onClick={(e) => { e.stopPropagation(); setEditingListing(listing); }}
-                      className="flex-1 sm:flex-none px-4 py-2.5 bg-neutral-100 text-neutral-600 rounded-xl text-sm font-bold hover:bg-neutral-200 transition-all flex items-center justify-center gap-2"
-                    >
-                      <Edit3 className="w-4 h-4" />
-                      Edit
-                    </button>
-                    <button
                       onClick={(e) => { e.stopPropagation(); setViewingStatus(listing); }}
-                      className="flex-1 sm:flex-none px-4 py-2.5 bg-violet-600 text-white rounded-xl text-sm font-bold hover:bg-violet-700 transition-all shadow-lg shadow-violet-100 flex items-center justify-center gap-2"
+                      className="w-full sm:w-auto px-4 py-2.5 bg-violet-600 text-white rounded-xl text-sm font-bold hover:bg-violet-700 transition-all shadow-lg shadow-violet-100 flex items-center justify-center gap-2"
                     >
                       View Status
                     </button>
